@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'meetPage',
     'django_neomodel',
+    'rest_framework',  # Add this line
+    #'meetPage',
 ]
 
 MIDDLEWARE = [

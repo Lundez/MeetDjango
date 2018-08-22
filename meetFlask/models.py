@@ -1,18 +1,19 @@
+import neomodel
 from django.db import models
 from neomodel import StructuredNode, StringProperty, UniqueIdProperty, \
     EmailProperty, BooleanProperty, Relationship, config, DateTimeProperty, One
+from grest import models
 
-config.DATABASE_URL = 'bolt://neo4j:meet2018@localhost:7687'
+neomodel.config.DATABASE_URL = "bolt://neo4j:meet2018@localhost:7687"
 
-
-class Group(StructuredNode):
+class Group(StructuredNode, models.Node):
     uid = UniqueIdProperty()
     name = StringProperty(required=True)
 
     members = Relationship('Person', 'IS_MEMBER')
 
 
-class Person(StructuredNode):
+class Person(StructuredNode, models.Node):
     # uid = UniqueIdProperty()
     email = EmailProperty(required=True, unique_index=True)
     name = StringProperty(required=True)
@@ -32,7 +33,7 @@ class Person(StructuredNode):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.name)
 
-class Event(StructuredNode):
+class Event(StructuredNode, models.Node):
     name = StringProperty(required=True)
     date = DateTimeProperty()
     description = StringProperty()
@@ -43,7 +44,7 @@ class Event(StructuredNode):
     declined = Relationship('Person', 'HAS_DECLINED')
 
 
-class Chat(StructuredNode):
+class Chat(StructuredNode, models.Node):
     cid = UniqueIdProperty()
     name = StringProperty()
 
@@ -51,7 +52,7 @@ class Chat(StructuredNode):
     users = Relationship('Person', 'CHAT_MEMBER')
 
 
-class Message(StructuredNode):
+class Message(StructuredNode, models.Node):
     mid = UniqueIdProperty()
     message = StringProperty()
     timestamp = DateTimeProperty(default_now=True)
