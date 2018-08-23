@@ -39,6 +39,7 @@ class Person(StructuredNode, models.Node):
 
 
 class Event(StructuredNode, models.Node):
+    eid = UniqueIdProperty()
     name = StringProperty(required=True)
     date = DateTimeProperty()
     description = StringProperty()

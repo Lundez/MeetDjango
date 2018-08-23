@@ -3,12 +3,7 @@ import os
 from flask import Flask, logging
 from grest import GRest, global_config, models
 
-from .models import Person
-
-
-class PersonsView(GRest):
-    __model__ = {"primary": Person}
-    __selection_field__ = {"primary": "email"}
+from .views import GroupsView, PersonsView, EventsView, ChatsView, MessagesView
 
 
 def create_app():
@@ -37,6 +32,11 @@ def create_app():
         app.ext_logger = app.logger
 
     PersonsView.register(app, route_base="/persons", trailing_slash=False)
+    GroupsView.register(app, route_base="/groups", trailing_slash=False)
+    EventsView.register(app, route_base="/events", trailing_slash=False)
+    ChatsView.register(app, route_base="/chats", trailing_slash=False)
+    MessagesView.register(app, route_base="/messages", trailing_slash=False)
+
     return app
 
 
