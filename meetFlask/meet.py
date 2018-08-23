@@ -3,7 +3,7 @@ import os
 from flask import Flask, logging
 from grest import GRest, global_config, models
 
-from models import Person
+from .models import Person
 
 
 class PersonsView(GRest):

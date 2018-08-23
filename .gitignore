@@ -2,3 +2,5 @@ meet/.idea/
 .idea/
 meet/meet/__pycache__/
 meet/meetPage/__pycache__/
+meetFlask/__pycache__/
+meetFlask/.pytest_cache/

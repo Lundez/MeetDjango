@@ -3,8 +3,10 @@ from django.db import models
 from neomodel import StructuredNode, StringProperty, UniqueIdProperty, \
     EmailProperty, BooleanProperty, Relationship, config, DateTimeProperty, One
 from grest import models
+from webargs import fields
 
 neomodel.config.DATABASE_URL = "bolt://neo4j:meet2018@localhost:7687"
+
 
 class Group(StructuredNode, models.Node):
     uid = UniqueIdProperty()
@@ -15,11 +17,17 @@ class Group(StructuredNode, models.Node):
 
 class Person(StructuredNode, models.Node):
     # uid = UniqueIdProperty()
+    __validation_rules__ = {
+        "name": fields.Str(),
+        "lastname": fields.Str(),
+        "password": fields.Str(required=True),
+        "email": fields.Str(required=True)
+    }
     email = EmailProperty(required=True, unique_index=True)
     name = StringProperty(required=True)
     lastname = StringProperty(required=True)
     is_active = BooleanProperty(default=0)
-    password_hash = StringProperty(required=True)
+    password = StringProperty(required=True)
 
     friends = Relationship('Person', 'IS_FRIEND')
     groups = Relationship('Group', 'IS_MEMBER')
@@ -29,9 +37,6 @@ class Person(StructuredNode, models.Node):
     event_invited = Relationship('Event', 'IS_INVITED')
     event_declined = Relationship('Event', 'HAS_DECLINED')
 
-    def __str__(self):
-        """Return a human readable representation of the model instance."""
-        return "{}".format(self.name)
 
 class Event(StructuredNode, models.Node):
     name = StringProperty(required=True)
